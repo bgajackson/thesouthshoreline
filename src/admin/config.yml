@@ -17,9 +17,9 @@ local_backend: true
 
 backend:
   name: github
-  repo: REPLACE_ME/thesouthshoreline
+  repo: bgajackson/thesouthshoreline
   branch: main
-  base_url: https://REPLACE_ME.workers.dev
+  base_url: https://thesouthshoreline.reynolds-jack.workers.dev
   auth_endpoint: api/auth
 
 media_folder: "src/images/uploads"
