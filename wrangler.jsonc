@@ -7,5 +7,9 @@
     "binding": "ASSETS",
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
+  },
+  "vars": {
+    "GITHUB_CLIENT_ID": "Ov23lijnw1ZjcXvs72DE",
+    "GITHUB_REPO": "bgajackson/thesouthshoreline"
   }
 }
