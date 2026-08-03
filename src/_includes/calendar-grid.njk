@@ -1,0 +1,13 @@
+<section class="calendar-grid" id="calendar-grid" aria-label="Events calendar">
+  <div class="calendar-grid__header">
+    <button type="button" class="calendar-grid__nav" id="cal-prev" aria-label="Previous month">&larr;</button>
+    <h2 id="cal-month-label"></h2>
+    <button type="button" class="calendar-grid__nav" id="cal-next" aria-label="Next month">&rarr;</button>
+  </div>
+  <div class="calendar-grid__weekdays">
+    <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+  </div>
+  <div class="calendar-grid__days" id="cal-days"></div>
+  <p class="calendar-grid__empty" id="cal-empty" hidden>No events yet this month.</p>
+</section>
+<script src="/js/calendar.js" defer></script>

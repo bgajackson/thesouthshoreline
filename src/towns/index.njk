@@ -1,0 +1,27 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: towns
+  size: 1
+  alias: town
+permalink: "/towns/{{ town.slug }}/"
+eleventyComputed:
+  title: "{{ town.name }} Events"
+---
+{% from "event-card.njk" import eventCard %}
+{% set townEvents = collections.events | upcoming | byTown(town.name) %}
+
+<div class="wrap">
+  <div class="page-header">
+    <h1>{{ town.name }} Events</h1>
+    <p>Upcoming events in {{ town.name }}, MA.</p>
+  </div>
+
+  {% if townEvents.length %}
+    <div class="event-list">
+      {% for event in townEvents %}{{ eventCard(event) }}{% endfor %}
+    </div>
+  {% else %}
+    <p class="empty-state">No approved events in {{ town.name }} yet. <a href="/submit/">Submit one</a>.</p>
+  {% endif %}
+</div>

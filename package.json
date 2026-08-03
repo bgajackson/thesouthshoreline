@@ -1,0 +1,20 @@
+{
+  "name": "thesouthshoreline",
+  "version": "1.0.0",
+  "description": "TheSouthShoreLine.com — hyperlocal events calendar and newsletter for Duxbury, Marshfield, Kingston, and Pembroke, MA",
+  "private": true,
+  "scripts": {
+    "start": "npx @11ty/eleventy --serve",
+    "build": "npx @11ty/eleventy",
+    "cms": "npx decap-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "@11ty/eleventy-img": "^6.0.4",
+    "decap-server": "^3.10.0",
+    "wrangler": "^4.114.0"
+  }
+}

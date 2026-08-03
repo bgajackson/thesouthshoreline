@@ -1,0 +1,36 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: collections.events
+  size: 1
+  alias: event
+permalink: "/events/{{ event.fileSlug }}/"
+eleventyComputed:
+  title: "{{ event.data.title }}"
+  description: "{{ event.data.description }}"
+---
+<div class="wrap">
+  <p><a href="/events/">&larr; All Events</a></p>
+
+  <div class="page-header">
+    <p class="event-card__meta" style="margin-bottom: 0.5rem;">
+      <span class="event-card__category">{{ event.data.category }}{% if event.data.subtag %} · {{ event.data.subtag }}{% endif %}</span>
+      &nbsp;&middot;&nbsp;
+      <span class="event-card__town">{{ event.data.town }}</span>
+    </p>
+    <h1>{{ event.data.title }}</h1>
+    <p>
+      {{ event.data.start_date | readableDate }}{% if event.data.end_date and event.data.end_date != event.data.start_date %} – {{ event.data.end_date | readableDate }}{% endif %}
+      {% if event.data.time %}&nbsp;&middot;&nbsp;{{ event.data.time }}{% endif %}
+    </p>
+    <p>{{ event.data.location }}{% if event.data.address %}, {{ event.data.address }}{% endif %}</p>
+  </div>
+
+  {% if event.data.image %}<img src="{{ event.data.image }}" alt="{{ event.data.title }}" style="border-radius: 10px; margin-bottom: 1.25rem;">{% endif %}
+
+  <p>{{ event.data.description }}</p>
+
+  {% if event.data.audience %}<p><strong>Audience:</strong> {{ event.data.audience }}</p>{% endif %}
+
+  {% if event.data.link %}<p><a class="event-card__link" href="{{ event.data.link }}" target="_blank" rel="noopener">More info / tickets &rarr;</a></p>{% endif %}
+</div>

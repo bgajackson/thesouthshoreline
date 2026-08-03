@@ -1,0 +1,6 @@
+[
+  { "name": "Live Music", "slug": "live-music" },
+  { "name": "Restaurant Special", "slug": "restaurant-specials" },
+  { "name": "Family/Kids", "slug": "family-kids" },
+  { "name": "Community/Civic", "slug": "community-civic" }
+]

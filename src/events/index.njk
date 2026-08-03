@@ -1,0 +1,22 @@
+---
+layout: layouts/base.njk
+title: All Events
+permalink: /events/
+---
+{% from "event-card.njk" import eventCard %}
+{% set upcomingEvents = collections.events | upcoming %}
+
+<div class="wrap">
+  <div class="page-header">
+    <h1>All Events</h1>
+    <p>Everything approved and upcoming across Duxbury, Marshfield, Kingston, and Pembroke, soonest first.</p>
+  </div>
+
+  {% if upcomingEvents.length %}
+    <div class="event-list">
+      {% for event in upcomingEvents %}{{ eventCard(event) }}{% endfor %}
+    </div>
+  {% else %}
+    <p class="empty-state">No events are approved yet. Know of something happening on the Line? <a href="/submit/">Submit it</a>.</p>
+  {% endif %}
+</div>

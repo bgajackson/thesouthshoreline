@@ -1,0 +1,75 @@
+# Decap CMS configuration for TheSouthShoreLine.com
+#
+# LOCAL TESTING (works right now, no accounts needed):
+#   Run these two commands in separate terminals:
+#     npm run cms
+#     npm start
+#   Then visit http://localhost:8080/admin/
+#   local_backend below makes the CMS write directly to your files on disk.
+#
+# ON THE LIVE SITE:
+#   The same /admin/ page uses real GitHub login instead (Decap
+#   automatically prefers the local backend only when running on
+#   localhost, so this file doesn't need to change between the two).
+#   Before deploying, replace the repo/base_url placeholders below.
+
+local_backend: true
+
+backend:
+  name: github
+  repo: REPLACE_ME/thesouthshoreline
+  branch: main
+  base_url: https://REPLACE_ME.workers.dev
+  auth_endpoint: api/auth
+
+media_folder: "src/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "events"
+    label: "Events"
+    folder: "src/_events"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    identifier_field: "title"
+    summary: "{{title}} — {{town}} — {{start_date}} ({{status}})"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - label: "Town"
+        name: "town"
+        widget: "select"
+        options: ["Duxbury", "Marshfield", "Kingston", "Pembroke"]
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options: ["Live Music", "Restaurant Special", "Family/Kids", "Community/Civic"]
+      - { label: "Subtag", name: "subtag", widget: "string", required: false, hint: "Free-text flavor tag, e.g. \"country,\" \"funk,\" \"farm-to-table\"" }
+      - label: "Audience"
+        name: "audience"
+        widget: "select"
+        options: ["Family/Kids", "All Ages", "21+"]
+      - { label: "Start Date", name: "start_date", widget: "date" }
+      - { label: "End Date", name: "end_date", widget: "date", required: false, hint: "For multi-day events" }
+      - label: "Recurrence"
+        name: "recurrence_rule"
+        widget: "object"
+        required: false
+        collapsed: true
+        fields:
+          - { label: "Frequency", name: "frequency", widget: "select", options: ["weekly", "biweekly", "monthly"] }
+          - { label: "Season Start", name: "season_start", widget: "date", required: false }
+          - { label: "Season End", name: "season_end", widget: "date", required: false }
+      - { label: "Time", name: "time", widget: "string", hint: "e.g. \"7:00 PM\" or \"7:00–9:00 PM\"" }
+      - { label: "Venue Name", name: "location", widget: "string" }
+      - { label: "Venue Address", name: "address", widget: "string", required: false }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Event / Ticket Link", name: "link", widget: "string", required: false }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Submitter Name (internal)", name: "source_name", widget: "string", required: false }
+      - { label: "Submitter Contact (internal)", name: "source_contact", widget: "string", required: false }
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options: ["pending", "approved", "rejected"]
+        default: "pending"
+      - { label: "Featured", name: "featured", widget: "boolean", default: false, hint: "Manually pin to the top of listings." }

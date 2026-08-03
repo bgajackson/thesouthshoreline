@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if title %}{{ title }} — {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ description or site.description }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="/">
+        {{ site.title }}
+        <span class="tagline">{{ site.tagline }}</span>
+      </a>
+      <nav class="site-nav">
+        <a href="/events/">All Events</a>
+        {% for town in towns %}<a href="/towns/{{ town.slug }}/">{{ town.name }}</a>{% endfor %}
+        <a class="cta" href="/submit/">Submit an Event</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>{{ site.title }} &mdash; {{ site.tagline }}.</p>
+      <p class="sponsor-credit">Proudly sponsored by <a href="{{ site.sponsor.url }}">{{ site.sponsor.name }}</a>.</p>
+      <p><a href="/about/">About</a> &middot; <a href="/submit/">Submit an Event</a> &middot; <a href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+    </div>
+  </footer>
+</body>
+</html>

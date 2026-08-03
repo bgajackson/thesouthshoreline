@@ -1,0 +1,137 @@
+---
+layout: layouts/base.njk
+title: Submit an Event
+permalink: /submit/
+---
+<div class="wrap">
+  <div class="page-header">
+    <h1>Submit an Event</h1>
+    <p>Tell us who, what, why, where, when, cost, and how &mdash; we'll review it by hand and get it on the site (and, if timing lines up, into Thursday's newsletter).</p>
+  </div>
+
+  <form class="event-form" id="event-form" novalidate>
+    <div>
+      <label for="title">Event Name *</label>
+      <input type="text" id="title" name="title" required maxlength="120">
+    </div>
+
+    <div>
+      <label for="description">Event Description *
+        <span class="hint">Cover who it's for, what's happening, why it's worth going, where, when, cost, and how to find more info &mdash; condensed to 1&ndash;2 sentences.</span>
+      </label>
+      <textarea id="description" name="description" required maxlength="500"></textarea>
+    </div>
+
+    <div>
+      <label for="town">Town *</label>
+      <select id="town" name="town" required>
+        <option value="" disabled selected>Choose a town</option>
+        {% for town in towns %}<option value="{{ town.name }}">{{ town.name }}</option>{% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label for="category">Category *</label>
+      <select id="category" name="category" required>
+        <option value="" disabled selected>Choose a category</option>
+        {% for category in categories %}<option value="{{ category.name }}">{{ category.name }}</option>{% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label for="subtag">Subtag <span class="hint">Optional flavor tag, e.g. "country," "funk," "farm-to-table"</span></label>
+      <input type="text" id="subtag" name="subtag" maxlength="40">
+    </div>
+
+    <div>
+      <label for="audience">Audience *</label>
+      <select id="audience" name="audience" required>
+        <option value="" disabled selected>Choose an audience</option>
+        <option value="Family/Kids">Family/Kids</option>
+        <option value="All Ages">All Ages</option>
+        <option value="21+">21+</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="start_date">Start Date *</label>
+      <input type="date" id="start_date" name="start_date" required>
+    </div>
+
+    <div>
+      <label for="end_date">End Date <span class="hint">Only for multi-day events</span></label>
+      <input type="date" id="end_date" name="end_date">
+    </div>
+
+    <div>
+      <label><input type="checkbox" id="recurring" name="recurring"> This is a recurring event</label>
+    </div>
+
+    <div id="recurrence-fields" hidden>
+      <label for="frequency">Frequency</label>
+      <select id="frequency" name="frequency">
+        <option value="weekly">Weekly</option>
+        <option value="biweekly">Biweekly</option>
+        <option value="monthly">Monthly</option>
+      </select>
+
+      <label for="season_start" style="margin-top: 0.75rem;">Season Start</label>
+      <input type="date" id="season_start" name="season_start">
+
+      <label for="season_end" style="margin-top: 0.75rem;">Season End</label>
+      <input type="date" id="season_end" name="season_end">
+    </div>
+
+    <div>
+      <label for="time">Time *
+        <span class="hint">e.g. "7:00 PM" or "7:00–9:00 PM"</span>
+      </label>
+      <input type="text" id="time" name="time" required maxlength="60">
+    </div>
+
+    <div>
+      <label for="location">Venue Name *</label>
+      <input type="text" id="location" name="location" required maxlength="120">
+    </div>
+
+    <div>
+      <label for="address">Venue Address <span class="hint">Optional, helps with future map integration</span></label>
+      <input type="text" id="address" name="address" maxlength="200">
+    </div>
+
+    <div>
+      <label for="link">Event / Ticket Link</label>
+      <input type="url" id="link" name="link" maxlength="300" placeholder="https://">
+    </div>
+
+    <div>
+      <label for="image">Flyer or Photo <span class="hint">Optional</span></label>
+      <input type="file" id="image" name="image" accept="image/png,image/jpeg,image/webp">
+    </div>
+
+    <div>
+      <label for="source_name">Your Name *</label>
+      <input type="text" id="source_name" name="source_name" required maxlength="120">
+    </div>
+
+    <div>
+      <label for="source_email">Your Email *</label>
+      <input type="email" id="source_email" name="source_email" required maxlength="200">
+    </div>
+
+    <div>
+      <label for="source_phone">Your Phone <span class="hint">Optional</span></label>
+      <input type="tel" id="source_phone" name="source_phone" maxlength="40">
+    </div>
+
+    <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY"></div>
+
+    <div>
+      <button type="submit" id="submit-btn">Submit for Review</button>
+      <p class="form-status" id="form-status" role="status"></p>
+    </div>
+  </form>
+</div>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="/js/submit.js" defer></script>

@@ -1,0 +1,16 @@
+{% macro eventCard(event) %}
+<article class="event-card{% if event.data.featured %} event-card--featured{% endif %}">
+  <div class="event-card__meta">
+    <span class="event-card__category">{{ event.data.category }}{% if event.data.subtag %} · {{ event.data.subtag }}{% endif %}</span>
+    <span class="event-card__town">{{ event.data.town }}</span>
+  </div>
+  <h3 class="event-card__title"><a href="/events/{{ event.fileSlug }}/">{{ event.data.title }}</a></h3>
+  <p class="event-card__when">
+    {{ event.data.start_date | readableDate }}{% if event.data.end_date and event.data.end_date != event.data.start_date %} – {{ event.data.end_date | readableDate }}{% endif %}
+    {% if event.data.time %}&nbsp;&middot;&nbsp;{{ event.data.time }}{% endif %}
+  </p>
+  <p class="event-card__where">{{ event.data.location }}</p>
+  <p class="event-card__desc">{{ event.data.description }}</p>
+  {% if event.data.link %}<a class="event-card__link" href="{{ event.data.link }}" target="_blank" rel="noopener">More info</a>{% endif %}
+</article>
+{% endmacro %}

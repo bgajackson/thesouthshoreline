@@ -1,0 +1,27 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: categories
+  size: 1
+  alias: category
+permalink: "/categories/{{ category.slug }}/"
+eleventyComputed:
+  title: "{{ category.name }} Events"
+---
+{% from "event-card.njk" import eventCard %}
+{% set categoryEvents = collections.events | upcoming | byCategory(category.name) %}
+
+<div class="wrap">
+  <div class="page-header">
+    <h1>{{ category.name }}</h1>
+    <p>Upcoming {{ category.name }} events across Duxbury, Marshfield, Kingston, and Pembroke.</p>
+  </div>
+
+  {% if categoryEvents.length %}
+    <div class="event-list">
+      {% for event in categoryEvents %}{{ eventCard(event) }}{% endfor %}
+    </div>
+  {% else %}
+    <p class="empty-state">No approved {{ category.name }} events yet. <a href="/submit/">Submit one</a>.</p>
+  {% endif %}
+</div>

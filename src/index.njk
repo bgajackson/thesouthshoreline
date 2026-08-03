@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+permalink: /
+---
+{% from "event-card.njk" import eventCard %}
+{% set todayEvents = collections.events | happeningToday %}
+
+<div class="wrap">
+  <div class="page-header">
+    <h1>{{ site.tagline }}.</h1>
+    <p>{{ site.description }} Real events from real local businesses and organizers &mdash; reviewed by hand, not scraped.</p>
+  </div>
+
+  <div class="layout-with-sidebar">
+    <div>
+      <h2>Today on the Line</h2>
+      {% if todayEvents.length %}
+        <div class="event-list">
+          {% for event in todayEvents %}{{ eventCard(event) }}{% endfor %}
+        </div>
+      {% else %}
+        <p class="empty-state">Nothing submitted for today yet. <a href="/events/">See all upcoming events</a> or <a href="/submit/">submit one</a>.</p>
+      {% endif %}
+
+      {% include "calendar-grid.njk" %}
+    </div>
+
+    <div>
+      {% include "tides-widget.njk" %}
+
+      <div class="sponsor-card">
+        <p class="sponsor-card__label">Founding Sponsor</p>
+        <h3><a href="{{ site.sponsor.url }}">{{ site.sponsor.name }}</a></h3>
+        <p>{{ site.sponsor.blurb }}</p>
+      </div>
+    </div>
+  </div>
+</div>
