@@ -19,7 +19,7 @@ backend:
   name: github
   repo: bgajackson/thesouthshoreline
   branch: main
-  base_url: https://thesouthshoreline.reynolds-jack.workers.dev
+  base_url: https://www.thesouthshoreline.com
   auth_endpoint: api/auth
 
 media_folder: "src/images/uploads"
