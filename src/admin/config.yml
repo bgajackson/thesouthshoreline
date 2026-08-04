@@ -56,7 +56,7 @@ collections:
         required: false
         collapsed: true
         fields:
-          - { label: "Frequency", name: "frequency", widget: "select", options: ["weekly", "biweekly", "monthly"] }
+          - { label: "Frequency", name: "frequency", widget: "select", options: ["weekly", "biweekly", "monthly"], required: false }
           - { label: "Season Start", name: "season_start", widget: "date", required: false }
           - { label: "Season End", name: "season_end", widget: "date", required: false }
       - { label: "Time", name: "time", widget: "string", hint: "e.g. \"7:00 PM\" or \"7:00–9:00 PM\"" }
