@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npx @11ty/eleventy --serve",
     "build": "npx @11ty/eleventy",
-    "cms": "npx decap-server"
+    "cms": "npx decap-server",
+    "import-events": "node scripts/import-events.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,7 @@
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6",
     "@11ty/eleventy-img": "^6.0.4",
+    "csv-parse": "^7.0.2",
     "decap-server": "^3.10.0",
     "wrangler": "^4.114.0"
   },
