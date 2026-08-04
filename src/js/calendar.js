@@ -7,10 +7,10 @@
   var emptyEl = document.getElementById("cal-empty");
   var prevBtn = document.getElementById("cal-prev");
   var nextBtn = document.getElementById("cal-next");
-  var selectedEl = document.getElementById("cal-selected");
-  var selectedTitle = document.getElementById("cal-selected-title");
-  var selectedList = document.getElementById("cal-selected-list");
-  var selectedClear = document.getElementById("cal-selected-clear");
+  var todayHeading = document.getElementById("today-heading");
+  var todayContent = document.getElementById("today-content");
+  var todayBack = document.getElementById("today-back");
+  var originalTodayHTML = todayContent ? todayContent.innerHTML : "";
 
   var today = new Date();
   var viewYear = today.getFullYear();
@@ -36,15 +36,16 @@
     });
   }
 
-  function clearSelection() {
+  function resetToToday() {
     if (selectedCell) selectedCell.classList.remove("cal-day--selected");
     selectedCell = null;
-    selectedEl.hidden = true;
-    selectedList.innerHTML = "";
+    if (todayHeading) todayHeading.textContent = "Today on the Line";
+    if (todayContent) todayContent.innerHTML = originalTodayHTML;
+    if (todayBack) todayBack.hidden = true;
   }
 
   function render() {
-    clearSelection();
+    resetToToday();
 
     monthLabel.textContent = new Date(viewYear, viewMonth, 1).toLocaleDateString("en-US", {
       month: "long",
@@ -161,22 +162,30 @@
     selectedCell = cellEl;
     selectedCell.classList.add("cal-day--selected");
 
-    selectedTitle.textContent = date.toLocaleDateString("en-US", {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-    });
+    var isToday = date.toDateString() === today.toDateString();
 
-    selectedList.innerHTML = "";
-    events.forEach(function (event) {
-      selectedList.appendChild(buildEventCard(event));
-    });
+    if (todayHeading) {
+      todayHeading.textContent = isToday
+        ? "Today on the Line"
+        : date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+    }
 
-    selectedEl.hidden = false;
-    selectedEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (todayContent) {
+      var list = document.createElement("div");
+      list.className = "event-list";
+      events.forEach(function (event) {
+        list.appendChild(buildEventCard(event));
+      });
+      todayContent.innerHTML = "";
+      todayContent.appendChild(list);
+    }
+
+    if (todayBack) todayBack.hidden = isToday;
+
+    if (todayHeading) todayHeading.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  selectedClear.addEventListener("click", clearSelection);
+  if (todayBack) todayBack.addEventListener("click", resetToToday);
 
   prevBtn.addEventListener("click", function () {
     viewMonth -= 1;

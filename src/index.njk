@@ -13,14 +13,19 @@ permalink: /
 
   <div class="layout-with-sidebar">
     <div>
-      <h2>Today on the Line</h2>
-      {% if todayEvents.length %}
-        <div class="event-list">
-          {% for event in todayEvents %}{{ eventCard(event) }}{% endfor %}
-        </div>
-      {% else %}
-        <p class="empty-state">Nothing submitted for today yet. <a href="/events/">See all upcoming events</a> or <a href="/submit/">submit one</a>.</p>
-      {% endif %}
+      <div class="section-header">
+        <h2 id="today-heading">Today on the Line</h2>
+        <button type="button" id="today-back" class="btn-subtle" hidden>Back to Today</button>
+      </div>
+      <div id="today-content">
+        {% if todayEvents.length %}
+          <div class="event-list">
+            {% for event in todayEvents %}{{ eventCard(event) }}{% endfor %}
+          </div>
+        {% else %}
+          <p class="empty-state">Nothing submitted for today yet. <a href="/events/">See all upcoming events</a> or <a href="/submit/">submit one</a>.</p>
+        {% endif %}
+      </div>
 
       {% include "calendar-grid.njk" %}
     </div>
