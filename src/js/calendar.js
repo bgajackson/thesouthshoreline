@@ -27,6 +27,10 @@
     events.forEach(function (event) {
       var start = new Date(event.start_date + "T00:00:00");
       var end = event.end_date ? new Date(event.end_date + "T00:00:00") : start;
+      // A bad end_date (e.g. entered before start_date by mistake) would
+      // otherwise make the event vanish from the calendar entirely — fall
+      // back to treating it as single-day rather than dropping it.
+      if (end < start) end = start;
       var cursor = new Date(start);
       while (cursor <= end) {
         var key = dateKey(cursor.getFullYear(), cursor.getMonth(), cursor.getDate());
