@@ -182,9 +182,10 @@ async function handleSubmitEvent(request, env) {
 
   try {
     await sendSubmissionNotification(env, body);
-  } catch {
+  } catch (err) {
     // A failed notification shouldn't fail the submission — the event is
     // already committed and reviewable in /admin/ regardless.
+    console.error("submission notification failed:", err);
   }
 
   return new Response(JSON.stringify({ ok: true }), {
@@ -193,7 +194,7 @@ async function handleSubmitEvent(request, env) {
 }
 
 async function sendSubmissionNotification(env, body) {
-  const to = "Comebirdingwithme@gmail.com";
+  const to = "comebirdingwithme@gmail.com";
   const from = "notifications@thesouthshoreline.com";
 
   const msg = createMimeMessage();

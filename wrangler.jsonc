@@ -15,7 +15,7 @@
   "send_email": [
     {
       "name": "SUBMISSION_EMAIL",
-      "destination_address": "Comebirdingwithme@gmail.com"
+      "destination_address": "comebirdingwithme@gmail.com"
     }
   ]
 }
