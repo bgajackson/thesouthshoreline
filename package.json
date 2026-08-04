@@ -16,5 +16,8 @@
     "@11ty/eleventy-img": "^6.0.4",
     "decap-server": "^3.10.0",
     "wrangler": "^4.114.0"
+  },
+  "dependencies": {
+    "mimetext": "^3.0.28"
   }
 }

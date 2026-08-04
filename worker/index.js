@@ -1,9 +1,13 @@
 // This Worker does three things:
 // 1. Handles GitHub OAuth login for Decap CMS, at /api/auth and /api/auth/callback
-// 2. Accepts public event submissions at /api/submit-event and commits them
-//    to the repo as pending-status files for review in Decap CMS
+// 2. Accepts public event submissions at /api/submit-event, commits them
+//    to the repo as pending-status files for review in Decap CMS, and
+//    emails a notification via Cloudflare Email Routing
 // 3. Proxies NOAA tide predictions at /api/tides
 // Everything else falls through to the built static site.
+
+import { EmailMessage } from "cloudflare:email";
+import { createMimeMessage } from "mimetext/browser";
 
 const TOWNS = ["Duxbury", "Marshfield", "Kingston", "Pembroke"];
 const CATEGORIES = ["Live Music", "Restaurant Special", "Family/Kids", "Community/Civic"];
@@ -176,9 +180,40 @@ async function handleSubmitEvent(request, env) {
     return jsonError("Could not save your submission. Please try again later.", 502);
   }
 
+  try {
+    await sendSubmissionNotification(env, body);
+  } catch {
+    // A failed notification shouldn't fail the submission — the event is
+    // already committed and reviewable in /admin/ regardless.
+  }
+
   return new Response(JSON.stringify({ ok: true }), {
     headers: { "Content-Type": "application/json" },
   });
+}
+
+async function sendSubmissionNotification(env, body) {
+  const to = "Comebirdingwithme@gmail.com";
+  const from = "notifications@thesouthshoreline.com";
+
+  const msg = createMimeMessage();
+  msg.setSender({ addr: from, name: "TheSouthShoreLine.com" });
+  msg.setRecipient(to);
+  msg.setSubject(`New event submission: ${body.title}`);
+  msg.addMessage({
+    contentType: "text/plain",
+    data:
+      `A new event was submitted and is waiting for review.\n\n` +
+      `Title: ${body.title}\n` +
+      `Town: ${body.town}\n` +
+      `Category: ${body.category}\n` +
+      `Date: ${body.start_date}\n` +
+      `Submitted by: ${body.source_name} (${body.source_email})\n\n` +
+      `Review it at https://www.thesouthshoreline.com/admin/`,
+  });
+
+  const message = new EmailMessage(from, to, msg.asRaw());
+  await env.SUBMISSION_EMAIL.send(message);
 }
 
 async function verifyTurnstile(token, secret, request) {

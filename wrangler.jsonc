@@ -11,5 +11,11 @@
   "vars": {
     "GITHUB_CLIENT_ID": "Ov23lijnw1ZjcXvs72DE",
     "GITHUB_REPO": "bgajackson/thesouthshoreline"
-  }
+  },
+  "send_email": [
+    {
+      "name": "SUBMISSION_EMAIL",
+      "destination_address": "Comebirdingwithme@gmail.com"
+    }
+  ]
 }
