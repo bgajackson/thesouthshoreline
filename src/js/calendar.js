@@ -7,11 +7,16 @@
   var emptyEl = document.getElementById("cal-empty");
   var prevBtn = document.getElementById("cal-prev");
   var nextBtn = document.getElementById("cal-next");
+  var selectedEl = document.getElementById("cal-selected");
+  var selectedTitle = document.getElementById("cal-selected-title");
+  var selectedList = document.getElementById("cal-selected-list");
+  var selectedClear = document.getElementById("cal-selected-clear");
 
   var today = new Date();
   var viewYear = today.getFullYear();
   var viewMonth = today.getMonth();
   var eventsByDate = {};
+  var selectedCell = null;
 
   function dateKey(y, m, d) {
     return y + "-" + String(m + 1).padStart(2, "0") + "-" + String(d).padStart(2, "0");
@@ -31,7 +36,16 @@
     });
   }
 
+  function clearSelection() {
+    if (selectedCell) selectedCell.classList.remove("cal-day--selected");
+    selectedCell = null;
+    selectedEl.hidden = true;
+    selectedList.innerHTML = "";
+  }
+
   function render() {
+    clearSelection();
+
     monthLabel.textContent = new Date(viewYear, viewMonth, 1).toLocaleDateString("en-US", {
       month: "long",
       year: "numeric",
@@ -72,9 +86,11 @@
         dot.title = dayEvents.length + " event" + (dayEvents.length > 1 ? "s" : "");
         cell.appendChild(dot);
 
-        cell.addEventListener("click", function (evts) {
-          return function () { showDayEvents(evts); };
-        }(dayEvents));
+        cell.setAttribute("role", "button");
+        cell.setAttribute("tabindex", "0");
+        cell.addEventListener("click", function (evts, date, cellEl) {
+          return function () { selectDay(evts, date, cellEl); };
+        }(dayEvents, cellDate, cell));
       }
 
       daysEl.appendChild(cell);
@@ -84,21 +100,83 @@
     emptyEl.hidden = monthHasEvents;
   }
 
-  function showDayEvents(events) {
-    var existing = root.querySelector(".calendar-grid__day-detail");
-    if (existing) existing.remove();
+  function buildEventCard(event) {
+    var card = document.createElement("article");
+    card.className = "event-card" + (event.featured ? " event-card--featured" : "");
 
-    var detail = document.createElement("div");
-    detail.className = "calendar-grid__day-detail";
-    events.forEach(function (event) {
+    var meta = document.createElement("div");
+    meta.className = "event-card__meta";
+    var category = document.createElement("span");
+    category.className = "event-card__category";
+    category.textContent = event.category + (event.subtag ? " · " + event.subtag : "");
+    var town = document.createElement("span");
+    town.className = "event-card__town";
+    town.textContent = event.town;
+    meta.appendChild(category);
+    meta.appendChild(town);
+    card.appendChild(meta);
+
+    var title = document.createElement("h3");
+    title.className = "event-card__title";
+    var titleLink = document.createElement("a");
+    titleLink.href = "/events/" + event.slug + "/";
+    titleLink.textContent = event.title;
+    title.appendChild(titleLink);
+    card.appendChild(title);
+
+    if (event.time) {
+      var when = document.createElement("p");
+      when.className = "event-card__when";
+      when.textContent = event.time;
+      card.appendChild(when);
+    }
+
+    var where = document.createElement("p");
+    where.className = "event-card__where";
+    where.textContent = event.location;
+    card.appendChild(where);
+
+    if (event.description) {
+      var desc = document.createElement("p");
+      desc.className = "event-card__desc";
+      desc.textContent = event.description;
+      card.appendChild(desc);
+    }
+
+    if (event.link) {
       var link = document.createElement("a");
-      link.href = "/events/" + event.slug + "/";
-      link.textContent = event.title + (event.time ? " — " + event.time : "");
-      link.style.display = "block";
-      detail.appendChild(link);
-    });
-    root.appendChild(detail);
+      link.className = "event-card__link";
+      link.href = event.link;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = "More info";
+      card.appendChild(link);
+    }
+
+    return card;
   }
+
+  function selectDay(events, date, cellEl) {
+    if (selectedCell) selectedCell.classList.remove("cal-day--selected");
+    selectedCell = cellEl;
+    selectedCell.classList.add("cal-day--selected");
+
+    selectedTitle.textContent = date.toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    });
+
+    selectedList.innerHTML = "";
+    events.forEach(function (event) {
+      selectedList.appendChild(buildEventCard(event));
+    });
+
+    selectedEl.hidden = false;
+    selectedEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  selectedClear.addEventListener("click", clearSelection);
 
   prevBtn.addEventListener("click", function () {
     viewMonth -= 1;

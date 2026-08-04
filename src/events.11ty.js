@@ -23,6 +23,8 @@ module.exports = class {
       end_date: toISODate(event.data.end_date),
       time: event.data.time || null,
       location: event.data.location,
+      description: event.data.description || null,
+      link: event.data.link || null,
       featured: !!event.data.featured,
     }));
     return JSON.stringify(events);

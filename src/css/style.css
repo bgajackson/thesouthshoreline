@@ -229,6 +229,7 @@ main { padding: 2rem 0 3rem; }
 .cal-day--current-month { background: var(--white); color: var(--ink); border: 1px solid var(--line); }
 .cal-day--today { border-color: var(--amber); border-width: 2px; }
 .cal-day--has-events { cursor: pointer; }
+.cal-day--selected { border-color: var(--seafoam); border-width: 2px; background: var(--seafoam-light); }
 .cal-day__num { font-weight: 600; }
 .cal-day__dot {
   display: inline-block;
@@ -239,6 +240,29 @@ main { padding: 2rem 0 3rem; }
   margin-top: 0.25rem;
 }
 .calendar-grid__empty { color: var(--ink-soft); text-align: center; margin-top: 0.75rem; }
+
+.calendar-grid__selected {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+.calendar-grid__selected-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.calendar-grid__selected-header h3 { margin: 0; font-size: 1rem; }
+.calendar-grid__clear {
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+.calendar-grid__clear:hover { color: var(--ink); }
 
 /* Forms */
 .event-form {
