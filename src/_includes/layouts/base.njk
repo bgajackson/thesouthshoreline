@@ -18,7 +18,13 @@
   <header class="site-header">
     <div class="wrap">
       <a class="brand" href="/">
-        <img class="brand-logo" src="/logo.svg" alt="{{ site.title }} — {{ site.tagline }}">
+        <svg class="brand-mark" viewBox="0 0 64 46" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M0 30 Q16 8 32 30 T64 30" stroke="var(--ssl-sand)" stroke-width="4" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-text">
+          {{ site.title }}
+          <span class="tagline">{{ site.tagline }}</span>
+        </span>
       </a>
       <nav class="site-nav">
         <a href="/events/">All Events</a>

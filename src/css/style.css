@@ -61,11 +61,28 @@ img { max-width: 100%; display: block; }
 .site-header .brand {
   display: flex;
   align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
 }
-.site-header .brand-logo {
-  height: 42px;
-  width: auto;
-  display: block;
+.site-header .brand-mark {
+  width: 34px;
+  height: auto;
+  flex-shrink: 0;
+}
+.site-header .brand-text {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--ssl-cream);
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.site-header .brand-text .tagline {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.75rem;
+  color: var(--ssl-sand);
 }
 .site-nav {
   display: flex;
