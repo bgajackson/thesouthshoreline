@@ -48,8 +48,8 @@ collections:
         name: "audience"
         widget: "select"
         options: ["Family/Kids", "All Ages", "21+"]
-      - { label: "Start Date", name: "start_date", widget: "date" }
-      - { label: "End Date", name: "end_date", widget: "date", required: false, hint: "For multi-day events" }
+      - { label: "Start Date", name: "start_date", widget: "datetime", format: "YYYY-MM-DD", date_format: true, time_format: false, picker_utc: true }
+      - { label: "End Date", name: "end_date", widget: "datetime", format: "YYYY-MM-DD", date_format: true, time_format: false, picker_utc: true, required: false, hint: "For multi-day events" }
       - label: "Recurrence"
         name: "recurrence_rule"
         widget: "object"
@@ -57,8 +57,8 @@ collections:
         collapsed: true
         fields:
           - { label: "Frequency", name: "frequency", widget: "select", options: ["weekly", "biweekly", "monthly"], required: false }
-          - { label: "Season Start", name: "season_start", widget: "date", required: false }
-          - { label: "Season End", name: "season_end", widget: "date", required: false }
+          - { label: "Season Start", name: "season_start", widget: "datetime", format: "YYYY-MM-DD", date_format: true, time_format: false, picker_utc: true, required: false }
+          - { label: "Season End", name: "season_end", widget: "datetime", format: "YYYY-MM-DD", date_format: true, time_format: false, picker_utc: true, required: false }
       - { label: "Time", name: "time", widget: "string", hint: "e.g. \"7:00 PM\" or \"7:00–9:00 PM\"" }
       - { label: "Venue Name", name: "location", widget: "string" }
       - { label: "Venue Address", name: "address", widget: "string", required: false }
