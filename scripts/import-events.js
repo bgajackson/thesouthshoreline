@@ -115,7 +115,17 @@ function main() {
   }
 
   const raw = fs.readFileSync(csvPath, "utf8");
-  const rows = parse(raw, { columns: true, skip_empty_lines: true, trim: true });
+  let rows;
+  try {
+    rows = parse(raw, { columns: true, skip_empty_lines: true, trim: true });
+  } catch (err) {
+    console.error(`Couldn't parse the CSV: ${err.message}`);
+    console.error(
+      "This usually means a text field (like description) contains a comma but isn't wrapped in double quotes. " +
+        "Find the line mentioned above and wrap that field's value in \"...\"."
+    );
+    process.exit(1);
+  }
 
   const eventsDir = path.join(__dirname, "..", "src", "_events");
   let imported = 0;
