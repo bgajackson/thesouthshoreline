@@ -19,10 +19,12 @@ eleventyComputed:
       <span class="event-card__town">{{ event.data.town }}</span>
     </p>
     <h1>{{ event.data.title }}</h1>
+    {% set timeDisplay = event.data.start_time | displayTime(event.data.end_time) %}
     <p>
       {{ event.data.start_date | readableDate }}{% if event.data.end_date and event.data.end_date != event.data.start_date %} – {{ event.data.end_date | readableDate }}{% endif %}
-      {% if event.data.time %}&nbsp;&middot;&nbsp;{{ event.data.time }}{% endif %}
+      {% if timeDisplay %}&nbsp;&middot;&nbsp;{{ timeDisplay }}{% elif event.data.time_note %}&nbsp;&middot;&nbsp;{{ event.data.time_note }}{% endif %}
     </p>
+    {% if timeDisplay and event.data.time_note %}<p class="event-detail__time-note">{{ event.data.time_note }}</p>{% endif %}
     <p>{{ event.data.location }}{% if event.data.address %}, {{ event.data.address }}{% endif %}</p>
   </div>
 

@@ -27,6 +27,10 @@ function isValidDate(str) {
   return /^\d{4}-\d{2}-\d{2}$/.test(str);
 }
 
+function isValidTime(str) {
+  return /^([01]\d|2[0-3]):[0-5]\d$/.test(str);
+}
+
 function parseBoolean(value) {
   return /^(true|yes|1|x)$/i.test((value || "").trim());
 }
@@ -49,7 +53,9 @@ function importRow(row, index) {
   const audience = (row.audience || "").trim();
   const start_date = (row.start_date || "").trim();
   const end_date = (row.end_date || "").trim();
-  const time = (row.time || "").trim();
+  const start_time = (row.start_time || "").trim();
+  const end_time = (row.end_time || "").trim();
+  const time_note = (row.time_note || "").trim();
   const location = (row.location || "").trim();
   const description = (row.description || "").trim();
   const status = ((row.status || "").trim() || "approved").toLowerCase();
@@ -61,7 +67,8 @@ function importRow(row, index) {
   if (!AUDIENCES.includes(audience)) errors.push(`invalid audience "${audience}" (expected one of ${AUDIENCES.join(", ")})`);
   if (!isValidDate(start_date)) errors.push(`invalid start_date "${start_date}" (expected YYYY-MM-DD)`);
   if (end_date && !isValidDate(end_date)) errors.push(`invalid end_date "${end_date}" (expected YYYY-MM-DD)`);
-  if (!time) errors.push("missing time");
+  if (!isValidTime(start_time)) errors.push(`invalid start_time "${start_time}" (expected 24-hour HH:MM, e.g. 19:00)`);
+  if (end_time && !isValidTime(end_time)) errors.push(`invalid end_time "${end_time}" (expected 24-hour HH:MM, e.g. 22:00)`);
   if (!location) errors.push("missing location");
   if (!description) errors.push("missing description");
   if (!STATUSES.includes(status)) errors.push(`invalid status "${status}"`);
@@ -92,7 +99,9 @@ function importRow(row, index) {
     start_date,
     end_date: end_date || null,
     recurrence_rule,
-    time,
+    start_time,
+    end_time: end_time || null,
+    time_note: time_note || null,
     location,
     address: (row.address || "").trim() || null,
     description,

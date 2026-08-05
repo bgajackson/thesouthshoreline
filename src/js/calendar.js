@@ -105,60 +105,77 @@
     emptyEl.hidden = monthHasEvents;
   }
 
-  function buildEventCard(event) {
-    var card = document.createElement("article");
-    card.className = "event-card" + (event.featured ? " event-card--featured" : "");
+  // "19" -> "7 PM" — mirrors the formatHourLabel() in .eleventy.js
+  function formatHourLabel(hour24) {
+    var h = parseInt(hour24, 10);
+    var period = h >= 12 ? "PM" : "AM";
+    var hour12 = h % 12 === 0 ? 12 : h % 12;
+    return hour12 + " " + period;
+  }
 
-    var meta = document.createElement("div");
-    meta.className = "event-card__meta";
-    var category = document.createElement("span");
-    category.className = "event-card__category";
-    category.textContent = event.category + (event.subtag ? " · " + event.subtag : "");
-    var town = document.createElement("span");
-    town.className = "event-card__town";
-    town.textContent = event.town;
-    meta.appendChild(category);
-    meta.appendChild(town);
-    card.appendChild(meta);
+  // Mirrors the groupByHour() Eleventy filter — "All Day" first, then
+  // chronological by hour.
+  function groupByHour(events) {
+    var sorted = events.slice().sort(function (a, b) {
+      return (a.start_time || "").localeCompare(b.start_time || "");
+    });
+    var buckets = [];
+    var indexByKey = {};
+    sorted.forEach(function (event) {
+      var key = event.start_time ? event.start_time.slice(0, 2) : "allday";
+      if (!(key in indexByKey)) {
+        indexByKey[key] = buckets.length;
+        buckets.push({ key: key, label: key === "allday" ? "All Day" : formatHourLabel(key), events: [] });
+      }
+      buckets[indexByKey[key]].events.push(event);
+    });
+    buckets.sort(function (a, b) {
+      if (a.key === "allday") return -1;
+      if (b.key === "allday") return 1;
+      return a.key.localeCompare(b.key);
+    });
+    return buckets;
+  }
 
-    var title = document.createElement("h3");
-    title.className = "event-card__title";
-    var titleLink = document.createElement("a");
-    titleLink.href = "/events/" + event.slug + "/";
-    titleLink.textContent = event.title;
-    title.appendChild(titleLink);
-    card.appendChild(title);
+  function buildEventLineList(events) {
+    var container = document.createDocumentFragment();
+    groupByHour(events).forEach(function (group) {
+      var heading = document.createElement("h3");
+      heading.className = "hour-heading";
+      heading.textContent = group.label;
+      container.appendChild(heading);
 
-    if (event.time) {
-      var when = document.createElement("p");
-      when.className = "event-card__when";
-      when.textContent = event.time;
-      card.appendChild(when);
-    }
+      var list = document.createElement("div");
+      list.className = "event-line-list";
+      group.events.forEach(function (event) {
+        var line = document.createElement("div");
+        line.className = "event-line";
 
-    var where = document.createElement("p");
-    where.className = "event-card__where";
-    where.textContent = event.location;
-    card.appendChild(where);
+        var left = document.createElement("div");
+        left.className = "event-line__left";
 
-    if (event.description) {
-      var desc = document.createElement("p");
-      desc.className = "event-card__desc";
-      desc.textContent = event.description;
-      card.appendChild(desc);
-    }
+        var titleLink = document.createElement("a");
+        titleLink.className = "event-line__title";
+        titleLink.href = "/events/" + event.slug + "/";
+        titleLink.textContent = event.title;
+        left.appendChild(titleLink);
 
-    if (event.link) {
-      var link = document.createElement("a");
-      link.className = "event-card__link";
-      link.href = event.link;
-      link.target = "_blank";
-      link.rel = "noopener";
-      link.textContent = "More info";
-      card.appendChild(link);
-    }
+        var tags = document.createElement("div");
+        tags.className = "event-line__tags";
+        tags.textContent = event.category + (event.subtag ? " · " + event.subtag : "") + " · " + event.town;
+        left.appendChild(tags);
 
-    return card;
+        var location = document.createElement("div");
+        location.className = "event-line__location";
+        location.textContent = event.location;
+
+        line.appendChild(left);
+        line.appendChild(location);
+        list.appendChild(line);
+      });
+      container.appendChild(list);
+    });
+    return container;
   }
 
   function selectDay(events, date, cellEl) {
@@ -175,13 +192,8 @@
     }
 
     if (todayContent) {
-      var list = document.createElement("div");
-      list.className = "event-list";
-      events.forEach(function (event) {
-        list.appendChild(buildEventCard(event));
-      });
       todayContent.innerHTML = "";
-      todayContent.appendChild(list);
+      todayContent.appendChild(buildEventLineList(events));
     }
 
     if (todayBack) todayBack.hidden = isToday;

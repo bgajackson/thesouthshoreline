@@ -59,7 +59,9 @@ collections:
           - { label: "Frequency", name: "frequency", widget: "select", options: ["weekly", "biweekly", "monthly"], required: false }
           - { label: "Season Start", name: "season_start", widget: "datetime", format: "YYYY-MM-DD", date_format: true, time_format: false, picker_utc: true, required: false }
           - { label: "Season End", name: "season_end", widget: "datetime", format: "YYYY-MM-DD", date_format: true, time_format: false, picker_utc: true, required: false }
-      - { label: "Time", name: "time", widget: "string", hint: "e.g. \"7:00 PM\" or \"7:00–9:00 PM\"" }
+      - { label: "Start Time", name: "start_time", widget: "string", pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Use 24-hour HH:MM, e.g. 19:00 for 7:00 PM"], hint: "24-hour HH:MM, e.g. 19:00 for 7:00 PM" }
+      - { label: "End Time", name: "end_time", widget: "string", required: false, pattern: ["^([01]\\d|2[0-3]):[0-5]\\d$", "Use 24-hour HH:MM, e.g. 22:00 for 10:00 PM"], hint: "24-hour HH:MM, optional" }
+      - { label: "Time Note", name: "time_note", widget: "string", required: false, hint: "Optional extra detail a plain time range can't capture, e.g. \"Doors 7:00 PM / Music 8:00 PM\"" }
       - { label: "Venue Name", name: "location", widget: "string" }
       - { label: "Venue Address", name: "address", widget: "string", required: false }
       - { label: "Description", name: "description", widget: "text" }

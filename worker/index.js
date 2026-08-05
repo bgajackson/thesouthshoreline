@@ -124,7 +124,7 @@ async function handleSubmitEvent(request, env) {
     return jsonError("Verification failed. Please try again.", 400);
   }
 
-  const required = ["title", "description", "town", "category", "audience", "start_date", "time", "location", "source_name", "source_email"];
+  const required = ["title", "description", "town", "category", "audience", "start_date", "start_time", "location", "source_name", "source_email"];
   for (const field of required) {
     if (typeof body[field] !== "string" || !body[field].trim()) {
       return jsonError(`Missing required field: ${field}`, 400);
@@ -136,6 +136,8 @@ async function handleSubmitEvent(request, env) {
   if (body.title.length > 120) return jsonError("Title is too long.", 400);
   if (body.description.length > 500) return jsonError("Description is too long.", 400);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(body.start_date)) return jsonError("Invalid start date.", 400);
+  if (!/^\d{2}:\d{2}$/.test(body.start_time)) return jsonError("Invalid start time.", 400);
+  if (body.end_time && !/^\d{2}:\d{2}$/.test(body.end_time)) return jsonError("Invalid end time.", 400);
 
   const sourceContact = [body.source_email, body.source_phone].filter(Boolean).join(", ");
   const slug = slugify(body.title);
@@ -162,7 +164,9 @@ async function handleSubmitEvent(request, env) {
     start_date: body.start_date,
     end_date: body.end_date || null,
     recurrence_rule: body.recurrence_rule || null,
-    time: body.time,
+    start_time: body.start_time,
+    end_time: body.end_time || null,
+    time_note: body.time_note || null,
     location: body.location,
     address: body.address || null,
     description: body.description,

@@ -8,7 +8,7 @@ permalink: "/towns/{{ town.slug }}/"
 eleventyComputed:
   title: "{{ town.name }} Events"
 ---
-{% from "event-card.njk" import eventCard %}
+{% from "event-line-list.njk" import eventLineListByDate %}
 {% set townEvents = collections.events | upcoming | byTown(town.name) %}
 
 <div class="wrap">
@@ -18,9 +18,7 @@ eleventyComputed:
   </div>
 
   {% if townEvents.length %}
-    <div class="event-list">
-      {% for event in townEvents %}{{ eventCard(event) }}{% endfor %}
-    </div>
+    {{ eventLineListByDate(townEvents) }}
   {% else %}
     <p class="empty-state">No approved events in {{ town.name }} yet. <a href="/submit/">Submit one</a>.</p>
   {% endif %}

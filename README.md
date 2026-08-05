@@ -40,7 +40,9 @@ Since no fake/sample events are committed to this repo, the site starts with a g
 | start_date | date | |
 | end_date | date, optional | |
 | recurrence_rule | object, optional | `{ frequency, days_of_week, season_start, season_end }` |
-| time | string | |
+| start_time | string | 24-hour `HH:MM`, e.g. `19:00`. `null` means "All Day" |
+| end_time | string, optional | 24-hour `HH:MM` |
+| time_note | string, optional | Free-text nuance a plain time range can't capture, e.g. "Doors 7:00 PM / Music 8:00 PM" |
 | location | string | Venue name |
 | address | string, optional | |
 | description | text | 1–2 sentences |

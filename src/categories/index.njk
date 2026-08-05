@@ -8,7 +8,7 @@ permalink: "/categories/{{ category.slug }}/"
 eleventyComputed:
   title: "{{ category.name }} Events"
 ---
-{% from "event-card.njk" import eventCard %}
+{% from "event-line-list.njk" import eventLineListByDate %}
 {% set categoryEvents = collections.events | upcoming | byCategory(category.name) %}
 
 <div class="wrap">
@@ -18,9 +18,7 @@ eleventyComputed:
   </div>
 
   {% if categoryEvents.length %}
-    <div class="event-list">
-      {% for event in categoryEvents %}{{ eventCard(event) }}{% endfor %}
-    </div>
+    {{ eventLineListByDate(categoryEvents) }}
   {% else %}
     <p class="empty-state">No approved {{ category.name }} events yet. <a href="/submit/">Submit one</a>.</p>
   {% endif %}

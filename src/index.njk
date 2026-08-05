@@ -2,7 +2,7 @@
 layout: layouts/base.njk
 permalink: /
 ---
-{% from "event-card.njk" import eventCard %}
+{% from "event-line-list.njk" import eventLineList %}
 {% set todayEvents = collections.events | happeningToday %}
 
 <div class="wrap">
@@ -19,18 +19,15 @@ permalink: /
       </div>
       <div id="today-content">
         {% if todayEvents.length %}
-          <div class="event-list">
-            {% for event in todayEvents %}{{ eventCard(event) }}{% endfor %}
-          </div>
+          {{ eventLineList(todayEvents) }}
         {% else %}
           <p class="empty-state">Nothing submitted for today yet. <a href="/events/">See all upcoming events</a> or <a href="/submit/">submit one</a>.</p>
         {% endif %}
       </div>
-
-      {% include "calendar-grid.njk" %}
     </div>
 
     <div>
+      {% include "calendar-grid.njk" %}
       {% include "tides-widget.njk" %}
     </div>
   </div>

@@ -83,10 +83,18 @@ permalink: /submit/
     </div>
 
     <div>
-      <label for="time">Time *
-        <span class="hint">e.g. "7:00 PM" or "7:00–9:00 PM"</span>
-      </label>
-      <input type="text" id="time" name="time" required maxlength="60">
+      <label for="start_time">Start Time *</label>
+      <input type="time" id="start_time" name="start_time" required>
+    </div>
+
+    <div>
+      <label for="end_time">End Time <span class="hint">Optional</span></label>
+      <input type="time" id="end_time" name="end_time">
+    </div>
+
+    <div>
+      <label for="time_note">Time Note <span class="hint">Optional — for anything a plain time range doesn't cover, e.g. "Doors 7:00 PM / Music 8:00 PM" or "Drop-in, no need to arrive at start"</span></label>
+      <input type="text" id="time_note" name="time_note" maxlength="120">
     </div>
 
     <div>

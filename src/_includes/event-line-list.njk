@@ -1,0 +1,32 @@
+{% macro eventLine(event) %}
+  <div class="event-line">
+    <div class="event-line__left">
+      <a href="/events/{{ event.fileSlug }}/" class="event-line__title">{{ event.data.title }}</a>
+      <div class="event-line__tags">{{ event.data.category }}{% if event.data.subtag %} · {{ event.data.subtag }}{% endif %} · {{ event.data.town }}</div>
+    </div>
+    <div class="event-line__location">{{ event.data.location }}</div>
+  </div>
+{% endmacro %}
+
+{# Single-day view: hour headings only (homepage "Today", calendar day-click) #}
+{% macro eventLineList(events) %}
+  {% for group in events | groupByHour %}
+    <h3 class="hour-heading">{{ group.label }}</h3>
+    <div class="event-line-list">
+      {% for event in group.events %}{{ eventLine(event) }}{% endfor %}
+    </div>
+  {% endfor %}
+{% endmacro %}
+
+{# Multi-day view: date headings, then hour headings within each date (/events/, /towns/x/, /categories/x/) #}
+{% macro eventLineListByDate(events) %}
+  {% for dateGroup in events | groupByDate %}
+    <h2 class="date-heading">{{ dateGroup.date | readableDate }}</h2>
+    {% for group in dateGroup.events | groupByHour %}
+      <h3 class="hour-heading">{{ group.label }}</h3>
+      <div class="event-line-list">
+        {% for event in group.events %}{{ eventLine(event) }}{% endfor %}
+      </div>
+    {% endfor %}
+  {% endfor %}
+{% endmacro %}

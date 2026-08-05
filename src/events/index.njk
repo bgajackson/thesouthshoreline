@@ -3,7 +3,7 @@ layout: layouts/base.njk
 title: All Events
 permalink: /events/
 ---
-{% from "event-card.njk" import eventCard %}
+{% from "event-line-list.njk" import eventLineListByDate %}
 {% set upcomingEvents = collections.events | upcoming %}
 
 <div class="wrap">
@@ -13,9 +13,7 @@ permalink: /events/
   </div>
 
   {% if upcomingEvents.length %}
-    <div class="event-list">
-      {% for event in upcomingEvents %}{{ eventCard(event) }}{% endfor %}
-    </div>
+    {{ eventLineListByDate(upcomingEvents) }}
   {% else %}
     <p class="empty-state">No events are approved yet. Know of something happening on the Line? <a href="/submit/">Submit it</a>.</p>
   {% endif %}
