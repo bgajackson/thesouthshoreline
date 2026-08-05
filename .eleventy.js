@@ -10,6 +10,11 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/js");
   eleventyConfig.addPassthroughCopy("src/images");
   eleventyConfig.addPassthroughCopy("src/admin");
+  eleventyConfig.addPassthroughCopy("src/icon.svg");
+  eleventyConfig.addPassthroughCopy("src/logo.svg");
+  eleventyConfig.addPassthroughCopy("src/favicon-16x16.png");
+  eleventyConfig.addPassthroughCopy("src/favicon-32x32.png");
+  eleventyConfig.addPassthroughCopy("src/apple-touch-icon.png");
 
   // All approved events, soonest first. Pending/rejected submissions never
   // reach the public build — Decap CMS reads src/_events directly instead.

@@ -12,6 +12,12 @@
   --radius: 10px;
   --font-head: "Fraunces", Georgia, serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Brand tokens (header/logo) */
+  --ssl-navy: #0C2B4A;
+  --ssl-navy-light: #3A5876;
+  --ssl-sand: #C9AD7F;
+  --ssl-cream: #F4E9D8;
 }
 
 * { box-sizing: border-box; }
@@ -40,8 +46,8 @@ img { max-width: 100%; display: block; }
 
 /* Header */
 .site-header {
-  background: var(--navy);
-  color: var(--white);
+  background: var(--ssl-navy);
+  color: var(--ssl-cream);
 }
 .site-header .wrap {
   display: flex;
@@ -53,20 +59,13 @@ img { max-width: 100%; display: block; }
   padding-bottom: 1rem;
 }
 .site-header .brand {
-  color: var(--white);
-  font-family: var(--font-head);
-  font-weight: 700;
-  font-size: 1.3rem;
-  text-decoration: none;
   display: flex;
-  flex-direction: column;
-  line-height: 1.2;
+  align-items: center;
 }
-.site-header .brand .tagline {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 0.75rem;
-  color: #b9c9d6;
+.site-header .brand-logo {
+  height: 42px;
+  width: auto;
+  display: block;
 }
 .site-nav {
   display: flex;
@@ -75,19 +74,20 @@ img { max-width: 100%; display: block; }
   align-items: center;
 }
 .site-nav a {
-  color: #d9e4ec;
+  color: var(--ssl-cream);
   font-size: 0.92rem;
+  text-decoration: none;
 }
-.site-nav a:hover { color: var(--white); }
+.site-nav a:hover { color: var(--ssl-sand); text-decoration: underline; }
 .site-nav .cta {
-  background: var(--amber);
-  color: var(--navy-dark);
+  background: var(--ssl-sand);
+  color: var(--ssl-navy);
   font-weight: 600;
   padding: 0.4rem 0.8rem;
   border-radius: var(--radius);
   text-decoration: none;
 }
-.site-nav .cta:hover { text-decoration: none; opacity: 0.9; }
+.site-nav .cta:hover { text-decoration: none; opacity: 0.9; color: var(--ssl-navy); }
 
 /* Layout */
 main { padding: 2rem 0 3rem; }
