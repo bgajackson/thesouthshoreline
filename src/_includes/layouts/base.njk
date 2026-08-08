@@ -28,11 +28,19 @@
       </a>
       <nav class="site-nav">
         <a href="/events/">All Events</a>
-        {% for town in towns %}<a href="/towns/{{ town.slug }}/">{{ town.name }}</a>{% endfor %}
+        <select class="nav-select" aria-label="Filter by town">
+          <option value="">Town</option>
+          {% for town in towns %}<option value="/towns/{{ town.slug }}/">{{ town.name }}</option>{% endfor %}
+        </select>
+        <select class="nav-select" aria-label="Filter by category">
+          <option value="">Category</option>
+          {% for category in categories %}<option value="/categories/{{ category.slug }}/">{{ category.name }}</option>{% endfor %}
+        </select>
         <a class="cta" href="/submit/">Submit an Event</a>
       </nav>
     </div>
   </header>
+  <script src="/js/nav-select.js" defer></script>
 
   <main>
     {{ content | safe }}

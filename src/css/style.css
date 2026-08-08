@@ -105,6 +105,23 @@ img { max-width: 100%; display: block; }
   text-decoration: none;
 }
 .site-nav .cta:hover { text-decoration: none; opacity: 0.9; color: var(--ssl-navy); }
+.nav-select {
+  background: var(--ssl-navy-light);
+  color: var(--ssl-cream);
+  border: 1px solid var(--ssl-sand);
+  border-radius: var(--radius);
+  padding: 0.4rem 1.6rem 0.4rem 0.7rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  max-width: 8.5rem;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23F4E9D8'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  cursor: pointer;
+}
+.nav-select:hover { border-color: var(--ssl-cream); }
+.nav-select option { color: var(--ink); background: var(--white); }
 
 /* Layout */
 main { padding: 2rem 0 3rem; }
