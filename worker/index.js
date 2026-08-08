@@ -10,7 +10,7 @@ import { EmailMessage } from "cloudflare:email";
 import { createMimeMessage } from "mimetext/browser";
 
 const TOWNS = ["Duxbury", "Marshfield", "Kingston", "Pembroke"];
-const CATEGORIES = ["Live Music", "Restaurant Special", "Family/Kids", "Community/Civic"];
+const CATEGORIES = ["Live Music", "Restaurant", "Family/Kids", "Community/Civic", "Markets", "Arts & Entertainment"];
 const AUDIENCES = ["Family/Kids", "All Ages", "21+"];
 
 export default {

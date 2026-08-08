@@ -1,7 +1,7 @@
 ---
 title: "Pembroke Farmers Market"
 town: "Pembroke"
-category: "Community/Civic"
+category: "Markets"
 subtag: "farmers market"
 audience: "All Ages"
 start_date: "2026-08-22"

@@ -34,7 +34,7 @@ Since no fake/sample events are committed to this repo, the site starts with a g
 |---|---|---|
 | title | string | |
 | town | enum | Duxbury / Marshfield / Kingston / Pembroke |
-| category | enum | Live Music, Restaurant Special, Family/Kids, Community/Civic |
+| category | enum | Live Music, Restaurant, Family/Kids, Community/Civic, Markets, Arts & Entertainment |
 | subtag | string, optional | e.g. "country," "farm-to-table" |
 | audience | enum | Family/Kids, All Ages, 21+ |
 | start_date | date | |

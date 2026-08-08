@@ -1,6 +1,8 @@
 [
   { "name": "Live Music", "slug": "live-music" },
-  { "name": "Restaurant Special", "slug": "restaurant-specials" },
+  { "name": "Restaurant", "slug": "restaurant" },
   { "name": "Family/Kids", "slug": "family-kids" },
-  { "name": "Community/Civic", "slug": "community-civic" }
+  { "name": "Community/Civic", "slug": "community-civic" },
+  { "name": "Markets", "slug": "markets" },
+  { "name": "Arts & Entertainment", "slug": "arts-entertainment" }
 ]

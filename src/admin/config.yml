@@ -42,7 +42,7 @@ collections:
       - label: "Category"
         name: "category"
         widget: "select"
-        options: ["Live Music", "Restaurant Special", "Family/Kids", "Community/Civic"]
+        options: ["Live Music", "Restaurant", "Family/Kids", "Community/Civic", "Markets", "Arts & Entertainment"]
       - { label: "Subtag", name: "subtag", widget: "string", required: false, hint: "Free-text flavor tag, e.g. \"country,\" \"funk,\" \"farm-to-table\"" }
       - label: "Audience"
         name: "audience"
