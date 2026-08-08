@@ -10,7 +10,12 @@
   var todayHeading = document.getElementById("today-heading");
   var todayContent = document.getElementById("today-content");
   var todayBack = document.getElementById("today-back");
+  // Server-rendered fallback: the build-time snapshot of "today", used only
+  // if the live events.json fetch fails (offline, etc). Once that fetch
+  // succeeds, showToday() replaces it with events for the browser's actual
+  // current date — the static build can be stale by days between commits.
   var originalTodayHTML = todayContent ? todayContent.innerHTML : "";
+  var haveLiveEvents = false;
 
   var today = new Date();
   var viewYear = today.getFullYear();
@@ -40,16 +45,31 @@
     });
   }
 
-  function resetToToday() {
+  function showToday() {
     if (selectedCell) selectedCell.classList.remove("cal-day--selected");
     selectedCell = null;
     if (todayHeading) todayHeading.textContent = "Today on the Line";
-    if (todayContent) todayContent.innerHTML = originalTodayHTML;
     if (todayBack) todayBack.hidden = true;
+    if (!todayContent) return;
+
+    if (!haveLiveEvents) {
+      todayContent.innerHTML = originalTodayHTML;
+      return;
+    }
+
+    var key = dateKey(today.getFullYear(), today.getMonth(), today.getDate());
+    var events = eventsByDate[key] || [];
+    if (events.length) {
+      todayContent.innerHTML = "";
+      todayContent.appendChild(buildEventLineList(events));
+    } else {
+      todayContent.innerHTML =
+        '<p class="empty-state">Nothing submitted for today yet. <a href="/events/">See all upcoming events</a> or <a href="/submit/">submit one</a>.</p>';
+    }
   }
 
   function render() {
-    resetToToday();
+    showToday();
 
     monthLabel.textContent = new Date(viewYear, viewMonth, 1).toLocaleDateString("en-US", {
       month: "long",
@@ -201,7 +221,7 @@
     if (todayHeading) todayHeading.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  if (todayBack) todayBack.addEventListener("click", resetToToday);
+  if (todayBack) todayBack.addEventListener("click", showToday);
 
   prevBtn.addEventListener("click", function () {
     viewMonth -= 1;
@@ -219,6 +239,7 @@
     .then(function (res) { return res.json(); })
     .then(function (events) {
       indexEvents(events);
+      haveLiveEvents = true;
       render();
     })
     .catch(function () {
